@@ -10,6 +10,10 @@ Future<bool> showTextCallbackDialog({
   String? message,
   String? okLabel,
   String? cancelLabel,
+  String? initialText,
+  TextStyle textStyle = const TextStyle(),
+  /// affects Android only
+  Color? dialogBackgroundColor,
   bool isDestructiveAction = false,
   bool barrierDismissible = true,
   String? hintText,
@@ -28,7 +32,9 @@ Future<bool> showTextCallbackDialog({
     context: context,
     textFields: [
       DialogTextField(
+        initialText: initialText,
         hintText: hintText,
+        cursorColor: textStyle.color,
         validator: validator
       ),
     ],
@@ -36,11 +42,14 @@ Future<bool> showTextCallbackDialog({
     message: message,
     okLabel: okLabel,
     cancelLabel: cancelLabel,
+    textStyle: textStyle,
+    dialogBackgroundColor: dialogBackgroundColor,
     isDestructiveAction: isDestructiveAction,
     style: style,
     actionsOverflowDirection: actionsOverflowDirection,
     fullyCapitalizedForMaterial: fullyCapitalizedForMaterial,
     onWillPop: onWillPop,
+    barrierDismissible: barrierDismissible
   );
   final text = texts == null ? null : texts[0];
 
@@ -58,6 +67,8 @@ Future<bool> showTextCallbackDialog({
     message: retryMessage,
     okLabel: retryOkLabel,
     cancelLabel: retryCancelLabel,
+    textStyle: textStyle,
+    dialogBackgroundColor: dialogBackgroundColor,
     defaultType: OkCancelAlertDefaultType.ok,
     actionsOverflowDirection: actionsOverflowDirection,
     barrierDismissible: barrierDismissible,
@@ -67,12 +78,15 @@ Future<bool> showTextCallbackDialog({
   );
   return result == OkCancelResult.ok
       ? showTextCallbackDialog(
+    initialText: initialText,
     context: context,
     asyncCallback: asyncCallback,
     title: title,
     message: message,
     okLabel: okLabel,
     cancelLabel: cancelLabel,
+    textStyle: textStyle,
+    dialogBackgroundColor: dialogBackgroundColor,
     isDestructiveAction: isDestructiveAction,
     barrierDismissible: barrierDismissible,
     hintText: hintText,
@@ -85,5 +99,6 @@ Future<bool> showTextCallbackDialog({
     actionsOverflowDirection: actionsOverflowDirection,
     fullyCapitalizedForMaterial: fullyCapitalizedForMaterial,
     onWillPop: onWillPop,
+    validator: validator
   ) : Future.value(false);
 }

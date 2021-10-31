@@ -13,6 +13,7 @@ Future<T?> showAlertDialog<T>({
   required BuildContext context,
   String? title,
   String? message,
+  Color? dialogBackgroundColor,
   List<AlertDialogAction<T>> actions = const [],
   bool barrierDismissible = true,
   AdaptiveStyle style = AdaptiveStyle.adaptive,
@@ -69,6 +70,7 @@ Future<T?> showAlertDialog<T>({
           builder: (context) => WillPopScope(
             onWillPop: onWillPop,
             child: AlertDialog(
+              backgroundColor: dialogBackgroundColor ?? theme.backgroundColor,
               title: titleText,
               content: messageText,
               actions: actions.convertToMaterialDialogActions(

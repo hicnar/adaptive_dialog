@@ -38,7 +38,7 @@ extension AlertDialogActionEx<T> on AlertDialogAction<T> {
       isDestructiveAction: isDestructiveAction,
       textStyle: textStyle,
       onPressed: () => onPressed(key),
-      child: Text(label),
+      child: Text(label, style: textStyle),
     );
   }
 
@@ -51,7 +51,7 @@ extension AlertDialogActionEx<T> on AlertDialogAction<T> {
       child: Text(
         fullyCapitalized ? label.toUpperCase() : label,
         style: textStyle.copyWith(
-          color: isDestructiveAction ? destructiveColor : null,
+          color: isDestructiveAction ? destructiveColor : textStyle.color,
         ),
       ),
       onPressed: () => onPressed(key),

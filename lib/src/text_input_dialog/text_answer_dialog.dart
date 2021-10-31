@@ -20,10 +20,12 @@ Future<bool> showTextAnswerDialog({
   VerticalDirection actionsOverflowDirection = VerticalDirection.up,
   bool fullyCapitalizedForMaterial = true,
   WillPopCallback? onWillPop,
-  FormFieldValidator<String>? validator
+  bool isCaseSensitive = true,
+  FormFieldValidator<String>? validator,
 }) async => showTextCallbackDialog(
     context: context,
-    asyncCallback: (value) async => value == keyword,
+    asyncCallback: (value) async => isCaseSensitive ?
+        value == keyword : value.toLowerCase() == keyword.toLowerCase(),
     title: title,
     message: message,
     okLabel: okLabel,

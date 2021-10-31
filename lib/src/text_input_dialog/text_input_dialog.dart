@@ -13,6 +13,8 @@ Future<List<String>?> showTextInputDialog({
   String? message,
   String? okLabel,
   String? cancelLabel,
+  TextStyle textStyle = const TextStyle(),
+  Color? dialogBackgroundColor,
   bool isDestructiveAction = false,
   bool barrierDismissible = true,
   AdaptiveStyle style = AdaptiveStyle.adaptive,
@@ -33,6 +35,7 @@ Future<List<String>?> showTextInputDialog({
             message: message,
             okLabel: okLabel,
             cancelLabel: cancelLabel,
+            buttonColor: textStyle.color,
             isDestructiveAction: isDestructiveAction,
             style: style,
             useRootNavigator: useRootNavigator,
@@ -52,6 +55,8 @@ Future<List<String>?> showTextInputDialog({
             message: message,
             okLabel: okLabel,
             cancelLabel: cancelLabel,
+            dialogBackgroundColor: dialogBackgroundColor,
+            buttonColor: textStyle.color,
             isDestructiveAction: isDestructiveAction,
             style: style,
             actionsOverflowDirection: actionsOverflowDirection,
@@ -66,10 +71,13 @@ Future<List<String>?> showTextInputDialog({
 // TODO(mono): Add more options
 @immutable
 class DialogTextField {
+
+
   const DialogTextField({
     this.initialText,
     this.hintText,
     this.obscureText = false,
+    this.cursorColor,
     this.validator,
     this.keyboardType,
     this.prefixText,
@@ -77,6 +85,7 @@ class DialogTextField {
     this.minLines,
     this.maxLines = 1,
   });
+  final Color? cursorColor;
   final String? initialText;
   final String? hintText;
   final bool obscureText;

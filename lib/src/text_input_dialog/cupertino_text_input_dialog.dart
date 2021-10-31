@@ -17,6 +17,7 @@ class CupertinoTextInputDialog extends StatefulWidget {
     this.useRootNavigator = true,
     this.onWillPop,
     this.autoSubmit = false,
+    this.buttonColor
   }) : super(key: key);
   @override
   _CupertinoTextInputDialogState createState() =>
@@ -32,6 +33,7 @@ class CupertinoTextInputDialog extends StatefulWidget {
   final bool useRootNavigator;
   final WillPopCallback? onWillPop;
   final bool autoSubmit;
+  final Color? buttonColor;
 }
 
 class _CupertinoTextInputDialogState extends State<CupertinoTextInputDialog> {
@@ -39,7 +41,7 @@ class _CupertinoTextInputDialogState extends State<CupertinoTextInputDialog> {
       .map((tf) => TextEditingController(text: tf.initialText))
       .toList();
   String? _validationMessage;
-  bool _autovalidate = false;
+  bool _autoValidate = false;
 
   @override
   void initState() {
@@ -47,7 +49,7 @@ class _CupertinoTextInputDialogState extends State<CupertinoTextInputDialog> {
 
     for (final c in _textControllers) {
       c.addListener(() {
-        if (_autovalidate) {
+        if (_autoValidate) {
           _validate();
         }
       });
@@ -64,6 +66,8 @@ class _CupertinoTextInputDialogState extends State<CupertinoTextInputDialog> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
     final navigator = Navigator.of(
       context,
       rootNavigator: widget.useRootNavigator,
@@ -86,7 +90,7 @@ class _CupertinoTextInputDialogState extends State<CupertinoTextInputDialog> {
       style: TextStyle(
         color: widget.isDestructiveAction
             ? CupertinoColors.systemRed.resolveFrom(context)
-            : null,
+            : widget.buttonColor ?? colorScheme.primary,
       ),
     );
     BoxDecoration _borderDecoration({
@@ -137,6 +141,7 @@ class _CupertinoTextInputDialogState extends State<CupertinoTextInputDialog> {
                 final prefixText = field.prefixText;
                 final suffixText = field.suffixText;
                 return CupertinoTextField(
+                  cursorColor: field.cursorColor ?? colorScheme.primary,
                   controller: c,
                   autofocus: i == 0,
                   placeholder: field.hintText,
@@ -184,6 +189,9 @@ class _CupertinoTextInputDialogState extends State<CupertinoTextInputDialog> {
                   MaterialLocalizations.of(context)
                       .cancelButtonLabel
                       .capitalizedForce,
+              style: TextStyle(
+                  color: widget.buttonColor ?? colorScheme.primary
+              ),
             ),
           ),
           CupertinoDialogAction(
@@ -196,7 +204,7 @@ class _CupertinoTextInputDialogState extends State<CupertinoTextInputDialog> {
   }
 
   bool _validate() {
-    _autovalidate = true;
+    _autoValidate = true;
     final validations = widget.textFields.mapIndexed((i, tf) {
       final validator = tf.validator;
       return validator == null ? null : validator(_textControllers[i].text);
