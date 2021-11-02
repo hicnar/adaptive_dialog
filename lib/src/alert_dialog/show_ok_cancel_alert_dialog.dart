@@ -17,7 +17,6 @@ Future<OkCancelResult> showOkCancelAlertDialog({
   String? message,
   String? okLabel,
   String? cancelLabel,
-  Color? dialogBackgroundColor,
   OkCancelAlertDefaultType? defaultType,
   bool isDestructiveAction = false,
   bool barrierDismissible = true,
@@ -27,7 +26,6 @@ Future<OkCancelResult> showOkCancelAlertDialog({
   VerticalDirection actionsOverflowDirection = VerticalDirection.up,
   bool fullyCapitalizedForMaterial = true,
   WillPopCallback? onWillPop,
-  TextStyle textStyle = const TextStyle()
 }) async {
   final isCupertinoStyle = Theme.of(context).isCupertinoStyle;
   String defaultCancelLabel() {
@@ -35,11 +33,11 @@ Future<OkCancelResult> showOkCancelAlertDialog({
     return isCupertinoStyle ? label.capitalizedForce : label;
   }
 
+  final theme = Theme.of(context);
   final result = await showAlertDialog<OkCancelResult>(
     context: context,
     title: title,
     message: message,
-    dialogBackgroundColor: dialogBackgroundColor,
     barrierDismissible: barrierDismissible,
     style: alertStyle,
     useActionSheetForCupertino: useActionSheetForCupertino,
@@ -51,13 +49,13 @@ Future<OkCancelResult> showOkCancelAlertDialog({
       AlertDialogAction(
         label: cancelLabel ?? defaultCancelLabel(),
         key: OkCancelResult.cancel,
-        textStyle: textStyle,
+        textStyle: TextStyle(color: theme.iconTheme.color ?? theme.primaryColor),
         isDefaultAction: defaultType == OkCancelAlertDefaultType.cancel,
       ),
       AlertDialogAction(
         label: okLabel ?? MaterialLocalizations.of(context).okButtonLabel,
         key: OkCancelResult.ok,
-        textStyle: textStyle,
+        textStyle: TextStyle(color: theme.iconTheme.color ?? theme.primaryColor),
         isDefaultAction: defaultType == OkCancelAlertDefaultType.ok,
         isDestructiveAction: isDestructiveAction,
       ),

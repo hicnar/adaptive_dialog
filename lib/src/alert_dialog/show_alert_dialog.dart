@@ -1,4 +1,5 @@
 import 'package:adaptive_dialog/adaptive_dialog.dart';
+import 'package:adaptive_dialog/src/extensions/extensions.dart';
 import 'package:animations/animations.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -13,7 +14,6 @@ Future<T?> showAlertDialog<T>({
   required BuildContext context,
   String? title,
   String? message,
-  Color? dialogBackgroundColor,
   List<AlertDialogAction<T>> actions = const [],
   bool barrierDismissible = true,
   AdaptiveStyle style = AdaptiveStyle.adaptive,
@@ -48,18 +48,23 @@ Future<T?> showAlertDialog<T>({
       ? showCupertinoDialog(
           context: context,
           useRootNavigator: useRootNavigator,
-          builder: (context) => WillPopScope(
-            onWillPop: onWillPop,
-            child: CupertinoAlertDialog(
-              title: titleText,
-              content: messageText,
-              actions: actions.convertToCupertinoDialogActions(
-                onPressed: pop,
-              ),
-              // TODO(mono): Set actionsOverflowDirection if available
-              // https://twitter.com/_mono/status/1261122914218160128
-            ),
-          ),
+          builder: (ctx) {
+            final theme = Theme.of(ctx);
+            return WillPopScope(
+              onWillPop: onWillPop,
+              child: CupertinoAlertDialog(
+                key: Key('cupertinoAlertDialog${theme.isDark ? 'D' : 'B'}'),
+                title: titleText,
+                content: messageText,
+                actions: actions.convertToCupertinoDialogActions(
+                    onPressed: pop,
+                    buttonColor: theme.iconTheme.color ?? theme.primaryColor
+                )
+                // TODO(mono): Set actionsOverflowDirection if available
+                // https://twitter.com/_mono/status/1261122914218160128
+              )
+            );
+          }
         )
       : showModal(
           context: context,
@@ -67,20 +72,25 @@ Future<T?> showAlertDialog<T>({
           configuration: FadeScaleTransitionConfiguration(
             barrierDismissible: barrierDismissible,
           ),
-          builder: (context) => WillPopScope(
-            onWillPop: onWillPop,
-            child: AlertDialog(
-              backgroundColor: dialogBackgroundColor ?? theme.backgroundColor,
-              title: titleText,
-              content: messageText,
-              actions: actions.convertToMaterialDialogActions(
-                onPressed: pop,
-                destructiveColor: colorScheme.error,
-                fullyCapitalized: fullyCapitalizedForMaterial,
-              ),
-              actionsOverflowDirection: actionsOverflowDirection,
-            ),
-          ),
+          builder: (ctx) {
+            final theme = Theme.of(ctx);
+            return WillPopScope(
+                onWillPop: onWillPop,
+                child: AlertDialog(
+                  key: Key('materialAlertDialog${theme.isDark ? 'D' : 'B'}'),
+                  backgroundColor: theme.cardColor,
+                  title: titleText,
+                  content: messageText,
+                  actions: actions.convertToMaterialDialogActions(
+                      onPressed: pop,
+                      destructiveColor: colorScheme.error,
+                      fullyCapitalized: fullyCapitalizedForMaterial,
+                      buttonColor: theme.iconTheme.color ?? theme.primaryColor
+                  ),
+                  actionsOverflowDirection: actionsOverflowDirection,
+                )
+            );
+          }
         );
 }
 

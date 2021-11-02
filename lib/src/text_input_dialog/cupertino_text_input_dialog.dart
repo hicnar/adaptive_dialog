@@ -17,7 +17,6 @@ class CupertinoTextInputDialog extends StatefulWidget {
     this.useRootNavigator = true,
     this.onWillPop,
     this.autoSubmit = false,
-    this.buttonColor
   }) : super(key: key);
   @override
   _CupertinoTextInputDialogState createState() =>
@@ -33,7 +32,6 @@ class CupertinoTextInputDialog extends StatefulWidget {
   final bool useRootNavigator;
   final WillPopCallback? onWillPop;
   final bool autoSubmit;
-  final Color? buttonColor;
 }
 
 class _CupertinoTextInputDialogState extends State<CupertinoTextInputDialog> {
@@ -90,7 +88,7 @@ class _CupertinoTextInputDialogState extends State<CupertinoTextInputDialog> {
       style: TextStyle(
         color: widget.isDestructiveAction
             ? CupertinoColors.systemRed.resolveFrom(context)
-            : widget.buttonColor ?? colorScheme.primary,
+            : theme.iconTheme.color ?? colorScheme.primary,
       ),
     );
     BoxDecoration _borderDecoration({
@@ -141,7 +139,7 @@ class _CupertinoTextInputDialogState extends State<CupertinoTextInputDialog> {
                 final prefixText = field.prefixText;
                 final suffixText = field.suffixText;
                 return CupertinoTextField(
-                  cursorColor: field.cursorColor ?? colorScheme.primary,
+                  cursorColor: theme.iconTheme.color ?? theme.primaryColor,
                   controller: c,
                   autofocus: i == 0,
                   placeholder: field.hintText,
@@ -190,7 +188,7 @@ class _CupertinoTextInputDialogState extends State<CupertinoTextInputDialog> {
                       .cancelButtonLabel
                       .capitalizedForce,
               style: TextStyle(
-                  color: widget.buttonColor ?? colorScheme.primary
+                  color: theme.iconTheme.color ?? colorScheme.primary
               ),
             ),
           ),

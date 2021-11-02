@@ -32,13 +32,14 @@ class AlertDialogAction<T> {
 extension AlertDialogActionEx<T> on AlertDialogAction<T> {
   Widget convertToCupertinoDialogAction({
     required ActionCallback<T> onPressed,
+    required Color buttonColor
   }) {
     return CupertinoDialogAction(
       isDefaultAction: isDefaultAction,
       isDestructiveAction: isDestructiveAction,
-      textStyle: textStyle,
+      textStyle: TextStyle(color: buttonColor),
       onPressed: () => onPressed(key),
-      child: Text(label, style: textStyle),
+      child: Text(label, style: TextStyle(color: buttonColor)),
     );
   }
 
@@ -46,13 +47,14 @@ extension AlertDialogActionEx<T> on AlertDialogAction<T> {
     required ActionCallback<T> onPressed,
     required Color destructiveColor,
     required bool fullyCapitalized,
+    required Color buttonColor
   }) {
     return TextButton(
       child: Text(
         fullyCapitalized ? label.toUpperCase() : label,
         style: textStyle.copyWith(
-          color: isDestructiveAction ? destructiveColor : textStyle.color,
-        ),
+          color: isDestructiveAction ? destructiveColor : buttonColor,
+        )
       ),
       onPressed: () => onPressed(key),
     );
@@ -62,20 +64,24 @@ extension AlertDialogActionEx<T> on AlertDialogAction<T> {
 extension AlertDialogActionListEx<T> on List<AlertDialogAction<T>> {
   List<Widget> convertToCupertinoDialogActions({
     required ActionCallback<T> onPressed,
+    required Color buttonColor
   }) =>
       map((a) => a.convertToCupertinoDialogAction(
             onPressed: onPressed,
+            buttonColor: buttonColor
           )).toList();
 
   List<Widget> convertToMaterialDialogActions({
     required ActionCallback<T> onPressed,
     required Color destructiveColor,
     required bool fullyCapitalized,
+    required Color buttonColor
   }) =>
       map((a) => a.convertToMaterialDialogAction(
             onPressed: onPressed,
             destructiveColor: destructiveColor,
             fullyCapitalized: fullyCapitalized,
+            buttonColor: buttonColor
           )).toList();
 
   List<SheetAction<T>> convertToSheetActions() =>

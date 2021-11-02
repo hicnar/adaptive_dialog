@@ -17,8 +17,7 @@ class MaterialTextInputDialog extends StatefulWidget {
     this.fullyCapitalized = true,
     this.onWillPop,
     this.autoSubmit = false,
-    this.dialogBackgroundColor,
-    this.buttonColor
+    this.dialogBackgroundColor
   }) : super(key: key);
   @override
   _MaterialTextInputDialogState createState() =>
@@ -37,7 +36,6 @@ class MaterialTextInputDialog extends StatefulWidget {
   final WillPopCallback? onWillPop;
   final bool autoSubmit;
   final Color? dialogBackgroundColor;
-  final Color? buttonColor;
 }
 
 class _MaterialTextInputDialogState extends State<MaterialTextInputDialog> {
@@ -46,11 +44,6 @@ class _MaterialTextInputDialogState extends State<MaterialTextInputDialog> {
       .toList();
   final _formKey = GlobalKey<FormState>();
   var _autoValidateMode = AutovalidateMode.disabled;
-
-  @override
-  void initState() {
-    super.initState();
-  }
 
   @override
   void dispose() {
@@ -92,7 +85,7 @@ class _MaterialTextInputDialogState extends State<MaterialTextInputDialog> {
           MaterialLocalizations.of(context).okButtonLabel,
       style: TextStyle(
         color: widget.isDestructiveAction ?
-          colorScheme.error : widget.buttonColor ?? colorScheme.primary
+          colorScheme.error : theme.iconTheme.color ?? theme.primaryColor
       ),
     );
     return WillPopScope(
@@ -100,7 +93,7 @@ class _MaterialTextInputDialogState extends State<MaterialTextInputDialog> {
       child: Form(
         key: _formKey,
         child: AlertDialog(
-          backgroundColor: widget.dialogBackgroundColor ?? theme.backgroundColor,
+          backgroundColor: theme.cardColor,
           title: titleText,
           content: Column(
             mainAxisSize: MainAxisSize.min,
@@ -125,7 +118,7 @@ class _MaterialTextInputDialogState extends State<MaterialTextInputDialog> {
                   autofocus: i == 0,
                   obscureText: textField.obscureText,
                   keyboardType: textField.keyboardType,
-                  cursorColor: textField.cursorColor,
+                  cursorColor: theme.iconTheme.color ?? theme.primaryColor,
                   minLines: textField.minLines,
                   maxLines: textField.maxLines,
                   decoration: InputDecoration(
@@ -134,7 +127,7 @@ class _MaterialTextInputDialogState extends State<MaterialTextInputDialog> {
                     suffixText: textField.suffixText,
                     focusedBorder: UnderlineInputBorder(
                         borderSide: BorderSide(
-                            color: widget.buttonColor ?? colorScheme.primary
+                            color: theme.iconTheme.color ?? theme.primaryColor
                         )
                     )
                   ),
@@ -157,7 +150,7 @@ class _MaterialTextInputDialogState extends State<MaterialTextInputDialog> {
                         : cancelLabel) ??
                     MaterialLocalizations.of(context).cancelButtonLabel,
                 style: TextStyle(
-                    color: widget.buttonColor ?? colorScheme.primary
+                    color: theme.iconTheme.color ?? theme.primaryColor
                 )
               ),
             ),
