@@ -85,7 +85,8 @@ class _MaterialTextInputDialogState extends State<MaterialTextInputDialog> {
           MaterialLocalizations.of(context).okButtonLabel,
       style: TextStyle(
         color: widget.isDestructiveAction ?
-          colorScheme.error : theme.iconTheme.color ?? theme.primaryColor
+          colorScheme.error : theme.buttonTheme.colorScheme?.primary ??
+                              theme.iconTheme.color ?? theme.primaryColor
       ),
     );
     return WillPopScope(
@@ -118,7 +119,8 @@ class _MaterialTextInputDialogState extends State<MaterialTextInputDialog> {
                   autofocus: i == 0,
                   obscureText: textField.obscureText,
                   keyboardType: textField.keyboardType,
-                  cursorColor: theme.iconTheme.color ?? theme.primaryColor,
+                  cursorColor: theme.buttonTheme.colorScheme?.primary ??
+                               theme.iconTheme.color ?? theme.primaryColor,
                   minLines: textField.minLines,
                   maxLines: textField.maxLines,
                   decoration: InputDecoration(
@@ -127,7 +129,8 @@ class _MaterialTextInputDialogState extends State<MaterialTextInputDialog> {
                     suffixText: textField.suffixText,
                     focusedBorder: UnderlineInputBorder(
                         borderSide: BorderSide(
-                            color: theme.iconTheme.color ?? theme.primaryColor
+                            color: theme.buttonTheme.colorScheme?.primary ??
+                                   theme.iconTheme.color ?? theme.primaryColor
                         )
                     )
                   ),
@@ -150,7 +153,8 @@ class _MaterialTextInputDialogState extends State<MaterialTextInputDialog> {
                         : cancelLabel) ??
                     MaterialLocalizations.of(context).cancelButtonLabel,
                 style: TextStyle(
-                    color: theme.iconTheme.color ?? theme.primaryColor
+                    color: theme.buttonTheme.colorScheme?.primary ??
+                           theme.iconTheme.color ?? theme.primaryColor
                 )
               ),
             ),

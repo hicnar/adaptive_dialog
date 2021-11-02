@@ -58,7 +58,8 @@ Future<T?> showAlertDialog<T>({
                 content: messageText,
                 actions: actions.convertToCupertinoDialogActions(
                     onPressed: pop,
-                    buttonColor: theme.iconTheme.color ?? theme.primaryColor
+                    buttonColor: theme.buttonTheme.colorScheme?.primary ??
+                                 theme.iconTheme.color ?? theme.primaryColor
                 )
                 // TODO(mono): Set actionsOverflowDirection if available
                 // https://twitter.com/_mono/status/1261122914218160128
@@ -85,7 +86,8 @@ Future<T?> showAlertDialog<T>({
                       onPressed: pop,
                       destructiveColor: colorScheme.error,
                       fullyCapitalized: fullyCapitalizedForMaterial,
-                      buttonColor: theme.iconTheme.color ?? theme.primaryColor
+                      buttonColor: theme.buttonTheme.colorScheme?.primary ??
+                                   theme.iconTheme.color ?? theme.primaryColor
                   ),
                   actionsOverflowDirection: actionsOverflowDirection,
                 )

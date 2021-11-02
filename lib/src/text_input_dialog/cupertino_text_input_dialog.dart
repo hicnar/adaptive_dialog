@@ -65,7 +65,6 @@ class _CupertinoTextInputDialogState extends State<CupertinoTextInputDialog> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final colorScheme = theme.colorScheme;
     final navigator = Navigator.of(
       context,
       rootNavigator: widget.useRootNavigator,
@@ -88,7 +87,8 @@ class _CupertinoTextInputDialogState extends State<CupertinoTextInputDialog> {
       style: TextStyle(
         color: widget.isDestructiveAction
             ? CupertinoColors.systemRed.resolveFrom(context)
-            : theme.iconTheme.color ?? colorScheme.primary,
+            : theme.buttonTheme.colorScheme?.primary ??
+              theme.iconTheme.color ?? theme.primaryColor,
       ),
     );
     BoxDecoration _borderDecoration({
@@ -139,7 +139,8 @@ class _CupertinoTextInputDialogState extends State<CupertinoTextInputDialog> {
                 final prefixText = field.prefixText;
                 final suffixText = field.suffixText;
                 return CupertinoTextField(
-                  cursorColor: theme.iconTheme.color ?? theme.primaryColor,
+                  cursorColor: theme.buttonTheme.colorScheme?.primary ??
+                               theme.iconTheme.color ?? theme.primaryColor,
                   controller: c,
                   autofocus: i == 0,
                   placeholder: field.hintText,
@@ -188,7 +189,8 @@ class _CupertinoTextInputDialogState extends State<CupertinoTextInputDialog> {
                       .cancelButtonLabel
                       .capitalizedForce,
               style: TextStyle(
-                  color: theme.iconTheme.color ?? colorScheme.primary
+                  color: theme.buttonTheme.colorScheme?.primary ??
+                         theme.iconTheme.color ?? theme.primaryColor
               ),
             ),
           ),

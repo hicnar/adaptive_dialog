@@ -49,13 +49,19 @@ Future<OkCancelResult> showOkCancelAlertDialog({
       AlertDialogAction(
         label: cancelLabel ?? defaultCancelLabel(),
         key: OkCancelResult.cancel,
-        textStyle: TextStyle(color: theme.iconTheme.color ?? theme.primaryColor),
+        textStyle: TextStyle(
+            color: theme.buttonTheme.colorScheme?.primary ??
+                   theme.iconTheme.color ?? theme.primaryColor
+        ),
         isDefaultAction: defaultType == OkCancelAlertDefaultType.cancel,
       ),
       AlertDialogAction(
         label: okLabel ?? MaterialLocalizations.of(context).okButtonLabel,
         key: OkCancelResult.ok,
-        textStyle: TextStyle(color: theme.iconTheme.color ?? theme.primaryColor),
+        textStyle: TextStyle(
+            color: theme.buttonTheme.colorScheme?.primary ??
+                theme.iconTheme.color ?? theme.primaryColor
+        ),
         isDefaultAction: defaultType == OkCancelAlertDefaultType.ok,
         isDestructiveAction: isDestructiveAction,
       ),
